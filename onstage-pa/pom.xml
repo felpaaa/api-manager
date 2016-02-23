@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.acc</groupId>
+		<artifactId>onstage</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>onstage-pa</artifactId>
+	<name>onstage - PA</name>
+	<packaging>jar</packaging><!-- DO NOT CHANGE INTO war -->
+
+	<dependencies>
+		<!-- Internal Module Dependencies -->
+		<dependency>
+			<groupId>com.acc</groupId>
+			<artifactId>onstage-core</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
+
+		<!-- OnAir dependencies -->
+		<dependency>
+			<groupId>com.bizmatica.onair</groupId>
+			<artifactId>onair-pa</artifactId>
+		</dependency>
+
+
+		<!-- MC module, for testing only -->
+		<dependency>
+			<groupId>com.acc</groupId>
+			<artifactId>onstage-mc</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>onstage-pa</finalName>
+		<!-- GROOVY WARNING GROOVY WARNING GROOVY WARNING GROOVY WARNING -->
+		<!-- REMEMBER ADD THIS IF GROOVY IS NEEDED IN THE MODULE -->
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<!-- 2.8.0-01 and later require maven-compiler-plugin 3.1 or higher -->
+					<version>3.1</version>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+						<encoding>${project.build.sourceEncoding}</encoding>
+						<compilerId>groovy-eclipse-compiler</compilerId>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.codehaus.groovy</groupId>
+							<artifactId>groovy-eclipse-compiler</artifactId>
+							<version>${groovy-eclipse-compiler}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.codehaus.groovy</groupId>
+							<artifactId>groovy-eclipse-batch</artifactId>
+							<version>${groovy-eclipse-batch}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.9</version>
+					<configuration>
+						<sourceIncludes>
+							<sourceInclude>**/*.groovy</sourceInclude>
+						</sourceIncludes>
+						<additionalProjectnatures>
+							<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+							<projectnature>org.eclipse.jdt.groovy.core.groovyNature</projectnature>
+						</additionalProjectnatures>
+						<additionalBuildcommands>
+							<buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
+						</additionalBuildcommands>
+						<downloadSources>true</downloadSources>
+						<downloadJavadocs>true</downloadJavadocs>
+					</configuration>
+					<inherited>true</inherited>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-eclipse-plugin</artifactId>
+			</plugin>
+		</plugins>
+
+	</build>
+</project>

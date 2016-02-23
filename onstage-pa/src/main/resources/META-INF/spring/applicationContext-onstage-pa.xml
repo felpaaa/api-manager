@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- contentNegotiationManager  customization  -->
+	<bean id="contentNegotiationManager"
+		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="defaultContentType" value="application/json" />
+		<property name="mediaTypes">
+			<value>
+				json=application/json
+				xml=application/xml
+				plain=text/plain
+			</value>
+		</property>
+		<!-- REST preferred strategies -->
+		<property name="favorPathExtension" value="false" />
+	    <property name="favorParameter" value="true" />
+	    <property name="parameterName" value="mediaType" />
+	    <property name="ignoreAcceptHeader" value="false"/>
+	    <property name="useJaf" value="false"/>
+	</bean>
+
+	<!-- Import nodeinfo.xml -->
+	<import resource="classpath:META-INF/spring/nodeinfo-pa.xml" />
+	
+ 	<!-- Import diagnostic to logging channels config (KEEP DISABLED IN PRODUCTION) -->
+<!-- 	<import resource="classpath*:META-INF/spring/integration/callProcessing-diagnostic-pa.xml" /> -->
+	
+</beans>

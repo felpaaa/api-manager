@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="6"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd">
+
+	<application-name>onstage</application-name>
+	<initialize-in-order>true</initialize-in-order>
+
+	<module>
+		<web>
+			<web-uri>onstage-pa-s-mc.war</web-uri>
+			<context-root>onstage</context-root>
+		</web>
+	</module>
+	<module>
+		<web>
+			<web-uri>onstage-console.war</web-uri>
+			<context-root>onstage-console</context-root>
+		</web>
+	</module>
+
+	<library-directory>lib</library-directory>
+
+	<env-entry>
+		<env-entry-name>spring.profiles.active</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>onstage.env.production, withJNDIdataSource, withoutJCE</env-entry-value>
+	</env-entry>
+
+</application>

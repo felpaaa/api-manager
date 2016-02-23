@@ -1,0 +1,112 @@
+import com.amplifon.domain.ReconciliationRequest
+import com.amplifon.domain.Customer
+import com.amplifon.domain.CustomerList
+import com.amplifon.domain.InternalErrorException
+import java.util.Date
+import java.util.List
+import java.lang.Boolean
+
+package com.amplifon.domain {
+	
+  
+  /**
+   * Sample response status for some requests
+  
+  enum Status {
+    SUCCESS
+    FAIL
+  }
+ */
+ 
+  /**
+   * ReconciliationResponse object
+   */
+  entity ReconciliationRequest {
+    name : String
+    surname : String
+    email : String
+    phone : String
+    country : String
+  }
+  
+  
+  entity Customer {
+    id_customer_lr : String
+    id_customer_fox : String
+    name : String
+    surname : String
+    email: String
+    phone : String
+    privacy : Boolean
+    consensus: Boolean
+    address1 : String
+    address2 : String
+    city : String
+    zip : String
+    locale : String
+    update_date : Date
+  }
+  
+  entity CustomerList {
+  	 list : List<Customer>
+  }
+  
+  /**
+   * Exception thrown when a pet is not found
+   */
+  exception InternalErrorException {
+    
+  }
+
+}
+
+servicePackage com.amplifon.services {
+  service ReconciliationService {
+	  /** WS_L_2  */
+	  method List<Customer> findCustomerForReconciliation ( key : ReconciliationRequest ) throws InternalErrorException
+  }
+  
+  service CustomerDataAllignService {
+  		/** WS_L_3  */
+  		method String allignCustomerMasterData(key : Customer) throws InternalErrorException
+
+	}
+
+}
+
+project AmplifonRest
+package com.amplifon.rest.controller {
+
+  api "Reconciliation API" /liferayEndpoint payloadSecurityMode NONE {
+    version "V1" /v1 status ACTIVE {
+
+    /* Get a list of customers */
+      endpoint "Search customers for reconciliation" POST /reconciliation {
+        service com.amplifon.services.ReconciliationService method findCustomerForReconciliation (
+        	:request = request : ReconciliationRequest
+        )
+
+        defaultStatusHttpCode 200
+      }
+
+    }
+
+  }
+  
+    api "Customer Allign API" /liferayEndpoint2 payloadSecurityMode NONE {
+    version "V1" /v1 status ACTIVE {
+
+    /* Get a list of customers */
+      endpoint "Allign master customer data" POST /allignCustomer{
+        service com.amplifon.services.CustomerDataAllignService method allignCustomerMasterData (
+        	:request = request : Customer
+        )
+
+        defaultStatusHttpCode 200
+      }
+
+    }
+
+  }
+
+}

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- Environment specific JPA configurations Edit configuration below to 
+		match your environment (properties are defined in config/<projectName>[.<env>].properties) -->
+		
+	<beans>
+		<!-- Configuration of JPA containerManagerFactory (extends configuration 
+			defined in defaultOmsContainerManagerFactory) -->
+
+		<bean id="containerManagerFactory" parent="defaultContainerManagerFactory">
+			<property name="persistenceUnitName" value="onair.s" />
+			<property name="jpaVendorAdapter">
+				<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+					<property name="showSql" value="false" />
+					<property name="generateDdl" value="false" />
+					<property name="database" value="${db.hibernate.database}" />
+					<property name="databasePlatform" value="${db.hibernate.dialect}" />
+				</bean>
+			</property>
+			<property name="jpaProperties">
+				<props>
+					<prop key="hibernate.hbm2ddl.auto">validate</prop>
+					<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+				</props>
+			</property>
+		</bean>
+
+		<beans profile="withJNDIdataSource">
+			<jee:jndi-lookup id="dataSource" jndi-name="${db.jndi.datasource}"
+				expected-type="javax.sql.DataSource" />
+			<jee:jndi-lookup id="quartzDataSource" jndi-name="${db.jndi.quartzDatasource}"
+				expected-type="javax.sql.DataSource" />
+		</beans>
+
+		<beans profile="!withJNDIdataSource">
+			<!--Direct db connection -->
+			<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+				<property name="driverClassName" value="${db.jdbc.driver}" />
+				<property name="url" value="${db.jdbc.url}" />
+				<property name="username" value="${db.username}" />
+				<property name="password" value="${db.password}" />
+				<property name="initialSize" value="3" />
+				<property name="removeAbandonedOnBorrow" value="true" />
+				<property name="testOnBorrow" value="true" />
+				<property name="logAbandoned" value="true" />
+				<property name="maxIdle" value="3" />
+				<property name="maxTotal" value="10" />
+			</bean>
+
+			<!-- DataSource used by Quartz for storing metadata -->
+			<bean id="quartzDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+				<property name="driverClassName" value="${quartz.db.jdbc.driver}" />
+				<property name="url" value="${quartz.db.jdbc.url}" />
+				<property name="username" value="${quartz.db.username}" />
+				<property name="password" value="${quartz.db.password}" />
+				<property name="initialSize" value="3" />
+				<property name="removeAbandonedOnBorrow" value="true" />
+				<property name="testOnBorrow" value="true" />
+				<property name="logAbandoned" value="true" />
+				<property name="maxIdle" value="3" />
+				<property name="maxTotal" value="5" />
+			</bean>
+		</beans>
+	</beans>
+
+	<!-- DEV environment -->
+	<beans profile="onstage.env.dev">
+	</beans>
+
+	<!-- TEST (server) environment -->
+	<beans profile="onstage.env.test">
+		<!-- Data fixtures -->
+		<jdbc:initialize-database data-source="dataSource"
+			ignore-failures="ALL">
+			<!-- Populate db -->
+			<jdbc:script location="classpath*:db/h2/insert_initial_license_check.sql"
+				execution="INIT" />
+			<jdbc:script location="classpath*:db/h2/create_clientapp.sql"
+				execution="INIT" />
+			<jdbc:script location="classpath*:db/h2/create_admin_consoleuser.sql"
+				execution="INIT" />
+			<jdbc:script location="classpath*:db/h2/add_acl_fixtures.sql"
+				execution="INIT" />
+			<jdbc:script location="classpath*:db/h2/populate_date_dim.sql"
+				execution="INIT" />
+			<jdbc:script location="classpath*:db/h2/populate_time_dim.sql"
+				execution="INIT" />
+			<jdbc:script location="classpath*:db/h2/populate_event_type_dim.sql"
+				execution="INIT" />
+			<jdbc:script location="classpath*:db/h2/populate_NA_dim_entries.sql"
+				execution="INIT" />
+			<jdbc:script location="classpath*:db/h2/populate_countries.sql"
+				execution="INIT" />
+		</jdbc:initialize-database>
+	</beans>
+
+	<!-- QA environment -->
+	<beans profile="onstage.env.qa">
+	</beans>
+
+	<!-- PRE-PROD environment -->
+	<beans profile="onstage.env.preprod">
+	</beans>
+	
+	<!-- PRODUCTION environment -->
+	<beans profile="onstage.env.production">
+	</beans>
+
+</beans>

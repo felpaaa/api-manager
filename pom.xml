@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.acc</groupId>
+	<artifactId>onstage</artifactId>
+	<!-- <version>1.2.0-RC1</version> --><!-- In this sample project version is commented to inherit from onair (framework) 
+		version -->
+	<packaging>pom</packaging>
+	<name>onstage - Parent project</name>
+
+	<parent>
+		<groupId>com.bizmatica.onair</groupId>
+		<artifactId>onair-bom</artifactId>
+		<!-- This is the OnAir version used by this project -->
+		<version>1.2.0-RC1</version>
+	</parent>
+
+	<properties>
+		<!-- Build Properties -->
+		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<onair.version>1.2.0-RC1</onair.version>
+	</properties>
+
+	<version>1.0.0-SNAPSHOT</version>
+
+        <repositories>
+                <repository>
+                        <id>libs-release</id>
+                        <name>ZC Libs Releases</name>
+                        <url>http://maven.z-c.office/artifactory/libs-release</url>
+                        <snapshots>
+                                <enabled>false</enabled>
+                        </snapshots>
+                        <releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+                        </releases>
+                </repository>
+                <repository>
+                        <id>libs-snapshot</id>
+                        <name>ZC Libs Snapshots</name>
+                        <url>http://maven.z-c.office/artifactory/libs-snapshot</url>
+                        <snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+                        </snapshots>
+                        <releases>
+                                <enabled>false</enabled>
+                        </releases>
+                </repository>
+        </repositories>
+
+        <pluginRepositories>
+                <!-- This is required by the Liquibase plugin to retrieve the Oracle driver -->
+                <pluginRepository>
+                        <id>libs-release-plugin</id>
+                        <name>ZC Libs Releases</name>
+                        <url>http://maven.z-c.office/artifactory/libs-release</url>
+                        <snapshots>
+                                <enabled>false</enabled>
+                        </snapshots>
+                        <releases>
+				<enabled>true</enabled>
+                        </releases>
+                </pluginRepository>
+                <pluginRepository>
+                        <id>libs-snapshot-plugin</id>
+                        <name>ZC Libs Snapshots</name>
+                        <url>http://maven.z-c.office/artifactory/libs-snapshot</url>
+                        <snapshots>
+				<enabled>true</enabled>
+                        </snapshots>
+                        <releases>
+                                <enabled>false</enabled>
+                        </releases>
+                </pluginRepository>
+        </pluginRepositories>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.bizmatica.onair</groupId>
+				<artifactId>onair-core</artifactId>
+				<version>${onair.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.bizmatica.onair</groupId>
+				<artifactId>onair-pa</artifactId>
+				<version>${onair.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.bizmatica.onair</groupId>
+				<artifactId>onair-s</artifactId>
+				<version>${onair.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.bizmatica.onair</groupId>
+				<artifactId>onair-mc</artifactId>
+				<version>${onair.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.bizmatica.onair</groupId>
+				<artifactId>onair-console</artifactId>
+				<version>${onair.version}</version>
+				<type>war</type>
+			</dependency>
+			<dependency>
+				<groupId>com.bizmatica.onair</groupId>
+				<artifactId>onair-persistence</artifactId>
+				<version>${onair.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.bizmatica.onair</groupId>
+				<artifactId>onair-persistence</artifactId>
+				<version>${onair.version}</version>
+				<type>test-jar</type>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.bizmatica.onair</groupId>
+                                <artifactId>onair-test</artifactId>
+                                <version>${onair.version}</version>
+                                <scope>test</scope>
+			</dependency>
+
+			<!-- JDBC drivers -->
+			<!-- IMPLEMENTATION PROJECTS SHOULD INCLUDE ONLY DRIVERS ACTUALLY REQUIRED -->
+			<dependency>
+				<groupId>com.oracle</groupId>
+				<artifactId>ojdbc6</artifactId>
+				<version>11.2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>5.1.34</version>
+			</dependency>
+			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>9.3-1101-jdbc41</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- Groovy -->
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+		</dependency>
+
+		<!-- Dependencies used by all modules -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.integration</groupId>
+			<artifactId>spring-integration-core</artifactId>
+		</dependency>
+
+
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>janino</artifactId>
+		</dependency>
+
+		<!-- Testing -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.spockframework</groupId>
+			<artifactId>spock-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.spockframework</groupId>
+			<artifactId>spock-spring</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<!-- Enable text substitution in resources -->
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>${basedir}/src/main/config</directory>
+				<!-- Enable text substitution in resources -->
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>${project.build.directory}/generated-resources</directory>
+			</resource>
+		</resources>
+
+		<pluginManagement>
+			<plugins>
+				<!-- Groovy plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin.version}</version>
+					<inherited>true</inherited>
+					<configuration>
+						<compileId>groovy-eclipse-compiler</compileId>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+						<encoding>${project.build.sourceEncoding}</encoding>
+						<verbose>false</verbose>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.codehaus.groovy</groupId>
+							<artifactId>groovy-eclipse-compiler</artifactId>
+							<version>${groovy-eclipse-compiler}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.codehaus.groovy</groupId>
+							<artifactId>groovy-eclipse-batch</artifactId>
+							<version>${groovy-eclipse-batch}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven-resources-plugin.version}</version>
+					<configuration>
+						<encoding>${project.build.sourceEncoding}</encoding>
+					</configuration>
+				</plugin>
+
+				<!-- Force Maven including version infos in MANIFEST.MF -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.9</version>
+					<configuration>
+						<sourceIncludes>
+							<sourceInclude>**/*.groovy</sourceInclude>
+						</sourceIncludes>
+						<additionalProjectnatures>
+							<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+							<projectnature>org.eclipse.jdt.groovy.core.groovyNature</projectnature>
+						</additionalProjectnatures>
+						<additionalBuildcommands>
+							<buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
+						</additionalBuildcommands>
+						<downloadSources>true</downloadSources>
+						<downloadJavadocs>true</downloadJavadocs>
+					</configuration>
+					<inherited>true</inherited>
+				</plugin>
+
+				<!-- DB schema management Use schemamigration.sh script manage onstage 
+					core database schema. Please run ./schemamigration.sh without parameters 
+					for help. -->
+				<plugin>
+					<groupId>org.liquibase</groupId>
+					<artifactId>liquibase-maven-plugin</artifactId>
+					<inherited>false</inherited>
+					<configuration>
+						<!-- All the variables must be defined by CLI -->
+						<changeLogFile>liquibase/${osdb.type}/changelog-master.xml</changeLogFile>
+						<driver>${osdb.driver}</driver>
+						<url>${osdb.url}</url>
+						<username>${osdb.user}</username>
+						<password>${osdb.pwd}</password>
+						<verbose>false</verbose>
+					</configuration>
+					<dependencies>
+						<!-- The following JDBC drivers should match the driver used by the 
+							application -->
+						<dependency>
+							<groupId>org.postgresql</groupId>
+							<artifactId>postgresql</artifactId>
+							<version>9.3-1102-jdbc41</version>
+						</dependency>
+						<dependency>
+							<groupId>mysql</groupId>
+							<artifactId>mysql-connector-java</artifactId>
+							<version>5.1.34</version>
+						</dependency>
+						<dependency>
+							<groupId>com.oracle</groupId>
+							<artifactId>ojdbc6</artifactId>
+							<version>11.2.0</version>
+						</dependency>
+
+						<dependency>
+							<groupId>com.bizmatica.onair</groupId>
+							<artifactId>onair-persistence</artifactId>
+							<version>${onair.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.5.2</version>
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+
+			<!-- Make Maven not replacing variables in resource files containing binary 
+				data -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<nonFilteredFileExtensions>
+						<nonFilteredFileExtension>p12</nonFilteredFileExtension>
+						<nonFilteredFileExtension>jks</nonFilteredFileExtension>
+						<nonFilteredFileExtension>cer</nonFilteredFileExtension>
+						Add other extensions here, if required
+					</nonFilteredFileExtensions>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+				<version>2.1.13</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+					</execution>
+				</executions>
+
+				<configuration>
+					<dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+					<prefix>git</prefix>
+					<dateFormat>dd.MM.yyyy '@' HH:mm:ss z</dateFormat>
+					<verbose>false</verbose>
+					<generateGitPropertiesFile>false</generateGitPropertiesFile>
+					<generateGitPropertiesFilename>src/main/resources/git.properties</generateGitPropertiesFilename>
+					<format>properties</format>
+					<skipPoms>true</skipPoms>
+					<injectAllReactorProjects>true</injectAllReactorProjects>
+					<failOnNoGitDirectory>false</failOnNoGitDirectory>
+					<failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
+					<skip>false</skip>
+					<runOnlyOnce>false</runOnlyOnce>
+					<excludeProperties>
+						<excludeProperty>git.user.*</excludeProperty>
+					</excludeProperties>
+					<useNativeGit>false</useNativeGit>
+					<abbrevLength>7</abbrevLength>
+					<gitDescribe>
+						<skip>false</skip>
+						<always>true</always>
+						<abbrev>7</abbrev>
+						<dirty>-dirty</dirty>
+						<match>*</match>
+						<forceLongFormat>false</forceLongFormat>
+					</gitDescribe>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<inherited>true</inherited>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<inherited>true</inherited>
+			</plugin>
+
+		</plugins>
+	</build>
+  <modules>
+    <module>onstage-core</module>
+    <module>onstage-mc</module>
+    <module>onstage-s</module>
+    <module>onstage-pa</module>
+    <module>onstage-console</module>
+    <module>onstage-dev</module>
+    <module>onstage-dist</module>
+  </modules>
+</project>

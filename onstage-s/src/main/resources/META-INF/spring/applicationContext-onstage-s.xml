@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- import nodeinfo -->
+	<import resource="classpath*:META-INF/spring/nodeinfo-s.xml" />
+
+	<!-- Import debug channel to logging channels config (Keep disabled in production) -->
+	<!-- <import resource="classpath*:META-INF/spring/integration/callProcessing-diagnostic-s.xml" 
+		/> -->
+
+	<!-- Scan @Components and @Services (from implementation project) -->
+	<context:component-scan base-package="com">
+		<context:exclude-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+
+	<bean id="passthroughLookupMetadataService" class="com.bizmatica.onair.passthrough.PassthroughLookupMetadataService" />
+
+</beans>

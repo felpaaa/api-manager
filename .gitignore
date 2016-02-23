@@ -1,0 +1,17 @@
+# Git files created by Eclipse
+**/.gitginore
+.pmd
+.spring[Bb]eans
+
+*.class
+.settings/
+eclipsebin/
+
+.sonar/
+
+# Intellij IDEA files
+.idea/
+*.eml
+*.iml
+
+rebel.xml

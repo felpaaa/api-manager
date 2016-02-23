@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 
+		**********************************
+		*** Service for storing Stats data
+		**********************************
+	 -->
+		
+	<!-- DEV environment -->
+	<beans profile="onstage.env.dev"> 
+		<!-- TODO configure Stats Store for DEV environment -->
+	</beans>
+	
+	
+	<!-- TEST (server) environment -->
+	<beans profile="onstage.env.test">
+		<!-- TODO configure Stats Store for TEST environment -->
+	</beans>
+	
+	<!-- QA environment -->
+	<beans profile="onstage.env.qa">
+		<!-- TODO configure Stats Store for QA environment -->
+	</beans>	
+	
+	<!-- PRE-PROD environment -->
+	<beans profile="onstage.env.preprod">
+		<!-- TODO configure Stats Store for PREPROD environment -->
+	</beans>	
+	
+	<!-- PRODUCTION environment -->
+	<beans profile="onstage.env.production">
+		<!-- TODO configure Stats Store for PRODUCTION environment -->
+	</beans>	
+	
+</beans>

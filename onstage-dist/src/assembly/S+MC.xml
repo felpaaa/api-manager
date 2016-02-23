@@ -1,0 +1,44 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd"
+>
+	<!-- 
+		Assembly for S+MC modules. 
+		Used by 2 WARs distribution.
+		Take webapp configuration from S module 
+	-->
+	<id>s-mc</id>
+	<formats>
+		<format>war</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	
+	<dependencySets>
+		<dependencySet>
+			<excludes>
+				<exclude>${project.groupId}:${project.parent.artifactId}-pa:jar</exclude>
+				<exclude>com.bizmatica.onair:onair-pa:*</exclude>
+			</excludes>
+			<useProjectArtifact>false</useProjectArtifact>
+			<useTransitiveDependencies>true</useTransitiveDependencies>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<unpack>false</unpack>
+		</dependencySet>
+	</dependencySets>
+	
+	<!-- Webapp files -->
+	<fileSets>
+		<fileSet>
+			<directory>../${project.parent.artifactId}-s/src/main/webapp/</directory>
+			<outputDirectory>/</outputDirectory>
+		</fileSet>
+	</fileSets>
+	
+	<files>
+		<!-- Logback config -->
+		<file>
+			<source>../${project.parent.artifactId}-s/src/main/config/logback.xml</source>
+			<outputDirectory>WEB-INF/classes</outputDirectory>
+		</file>
+	</files>
+	
+</assembly>

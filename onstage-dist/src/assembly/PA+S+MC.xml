@@ -1,0 +1,47 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd"
+>
+	<!-- 
+		Single WAR assembly. 
+		Used by single-WAR distribution.
+		Take webapp configuration from PA module 
+	-->
+	<id>pa-s-mc</id>
+	<formats>
+		<format>war</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<dependencySets>
+		<dependencySet>			
+			<useProjectArtifact>false</useProjectArtifact>
+			<useTransitiveDependencies>true</useTransitiveDependencies>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<excludes>
+				<exclude>xml-apis:xml-apis</exclude>
+			</excludes>
+			<unpack>false</unpack>
+		</dependencySet>
+	</dependencySets>
+	
+	<!-- Webapp files -->	
+	<fileSets>
+		<fileSet>
+			<directory>../${project.parent.artifactId}-pa/src/main/webapp/</directory>
+			<outputDirectory>/</outputDirectory>
+		</fileSet>
+	</fileSets>
+	
+	<files>
+		<!-- Logback config -->
+		<file>
+			<source>../${project.parent.artifactId}-pa/src/main/config/logback.xml</source>
+			<outputDirectory>WEB-INF/classes</outputDirectory>
+		</file>
+		
+		<!-- NodeInfo for PA module 
+		 	 automatically included 
+		 	 from <project>-pa/src/main/resources/META-INF/spring/nodeinfo-pa.xml  -->
+	</files>
+
+	
+</assembly>

@@ -1,0 +1,51 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd"
+>
+	<!-- 
+		Assembly for stanalone PA module. 
+		Used by both 2 and 3 WARs distributions
+		Take webapp configuration from PA module 
+	-->
+	<id>pa</id>
+	<formats>
+		<format>war</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<dependencySets>
+		<dependencySet>			
+			<excludes>
+				<exclude>${project.groupId}:${project.parent.artifactId}-s:jar</exclude>
+				<exclude>${project.groupId}:${project.parent.artifactId}-mc:jar</exclude>
+				<exclude>com.bizmatica.onair:onair-s:*</exclude>
+				<exclude>com.bizmatica.onair:onair-persistence:*</exclude>
+				<exclude>com.bizmatica.onair:onair-mc:*</exclude>
+				<exclude>com.bizmatica.onair:onair-batch:*</exclude>
+			</excludes>
+			<useProjectArtifact>false</useProjectArtifact>
+			<useTransitiveDependencies>true</useTransitiveDependencies>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<unpack>false</unpack>
+		</dependencySet>
+	</dependencySets>
+	
+	<!-- Webapp files -->
+	<fileSets>
+		<fileSet>
+			<directory>../${project.parent.artifactId}-pa/src/main/webapp/</directory>
+			<outputDirectory>/</outputDirectory>
+		</fileSet>
+	</fileSets>
+	
+	<files>
+		<!-- Logback config -->
+		<file>
+			<source>../${project.parent.artifactId}-pa/src/main/config/logback.xml</source>
+			<outputDirectory>WEB-INF/classes</outputDirectory>
+		</file>
+		
+		<!-- NodeInfo for PA module 
+		 	 automatically included 
+		 	 from <project>-pa/src/main/resources/META-INF/spring/nodeinfo-pa.xml  -->
+	</files>
+	
+</assembly>

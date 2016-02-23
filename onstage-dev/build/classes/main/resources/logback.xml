@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<!--  
+	Logging configuration for development only.
+	This file is not used in any deployment assembly
+ -->
+<configuration>
+	<property name="ONAIR_PROJECTNAME" value="onstage" /><!-- Project name -->
+	<property name="ONAIR_MODULETYPE" value="dev" /><!-- OnAir module type -->
+	
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [${ONAIR_MODULETYPE}, %thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<root level="info">
+		<appender-ref ref="console" />
+	</root>
+	
+	<logger name="ONAIR.EVENTS" level="warn" />
+	
+<!-- 	<logger name="com.bizmatica.onair" level="debug" /> -->
+<!-- 	<logger name="com.bizmatica.onair.performance" level="info" /> -->
+<!-- 	<logger name="com.bizmatica.onair.license" level="trace" /> -->
+	
+	
+<!-- 	<logger name="org.springframework.web" level="trace"  /> -->
+<!-- 	<logger name="com.acme.sampleproject" level="trace" /> -->
+<!-- 	<logger name="org.springframework.remoting" level="trace" /> -->
+<!-- 	<logger name="org.jmxtrans.embedded" level="trace" /> -->	
+<!-- 	<logger name="com.bizmatica.onair.protocoladapter.dynamic" level="debug" /> -->
+
+	<!-- 
+		Spring Integration messages logging
+		
+		Logger naming
+			Module inbound/outbound channels
+			  	ONAIR.MESSAGES."PA"|"S"|"MC"."NORTH"|"SOUTH"-"INBOUND"|"OUTBOUND"."PAYLOAD"|"FULLMESSAGE"
+			Error channels (intercepts 'errorChannel')
+				ONAIR.MESSAGES."PA"|"S"|"MC".ERROR-CHANNEL."PAYLOAD"|"FULLMESSAGE"
+			Errors intercepted by MC module's gateway
+				ONAIR.MESSAGES.MC.GATEWAY-ERRORS."PAYLOAD"|"FULLMESSAGE"
+							
+			*.PAYLOAD loggers log message body at DEBUG level
+			*.FULLMESSAGE loggers log the full message (including headers) at TRACE level
+			
+			Performance Stats data
+				ONAIR.STATS."PA"|"S"|"MC"
+	-->
+	
+	<logger name="ONAIR.MESSAGES" level="warn" /><!-- Enable call processing message logging -->
+	
+	<!-- Enable stats data logging -->
+<!-- 	<logger name="ONAIR.STATS" level="debug" /> -->
+<!-- 	<logger name="com.bizmatica.onair.session" level="trace" /> -->
+</configuration>

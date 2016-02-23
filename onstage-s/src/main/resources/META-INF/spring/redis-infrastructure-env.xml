@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c" xmlns:redis="http://www.springframework.org/schema/redis"
+	xsi:schemaLocation="http://www.springframework.org/schema/redis http://www.springframework.org/schema/redis/spring-redis.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- TODO this file duplicates and identical file in the Console module -->
+
+
+	<!-- Environment specific REDIS configurations Edit configuration below 
+		to match your environment (properties are defined in config/<projectName>[.<env>].properties) -->
+
+
+	<!-- DEV environment -->
+	<beans profile="onstage.env.dev">
+
+		<!-- Connect directly to REDIS instance -->
+		<bean id="jedisConnectionFactory"
+			class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+			p:host-name="${redis.host}" p:port="${redis.port}" p:timeout="${redis.connection.timeout}">
+			<constructor-arg>
+				<bean class="redis.clients.jedis.JedisPoolConfig" p:maxTotal="${redis.pool.maxTotal}"
+					p:maxIdle="${redis.pool.maxIdle}" p:minIdle="${redis.pool.minIdle}"
+					p:jmxEnabled="true" p:maxWaitMillis="${redis.pool.maxWaitMillis}"
+					p:testOnBorrow="true" p:testOnReturn="false" p:testWhileIdle="false" />
+			</constructor-arg>
+		</bean>
+
+		<!-- Connect to REDIS through SENTINEL -->
+		<!-- <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" 
+			p:timeout="${redis.connection.timeout}"> <constructor-arg> <bean class="org.springframework.data.redis.connection.RedisSentinelConfiguration"> 
+			<property name="master"> <bean class="com.bizmatica.redis.RedisNamedNode" 
+			c:name="onAirMaster" /> </property> <property name="sentinels"> <list> <bean 
+			class="com.bizmatica.redis.RedisNamedNode" c:host="${redis.sentinel.1.host}" 
+			c:port="${redis.sentinel.1.port}"/> <bean class="com.bizmatica.redis.RedisNamedNode" 
+			c:host="${redis.sentinel.2.host}" c:port="${redis.sentinel.2.port}"/> </list> 
+			</property> </bean> </constructor-arg> <constructor-arg> <bean class="redis.clients.jedis.JedisPoolConfig" 
+			p:maxTotal="${redis.pool.maxTotal}" p:maxIdle="${redis.pool.maxIdle}" p:minIdle="${redis.pool.minIdle}" 
+			p:jmxEnabled="true" p:maxWaitMillis="${redis.pool.maxWaitMillis}" p:testOnBorrow="true" 
+			p:testOnReturn="false" p:testWhileIdle="false" /> </constructor-arg> </bean> -->
+	</beans>
+
+
+	<!-- TEST (server) environment -->
+	<beans profile="onstage.env.test">
+
+		<bean id="jedisConnectionFactory"
+			class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+			p:host-name="${redis.host}" p:port="${redis.port}" p:timeout="${redis.connection.timeout}">
+			<constructor-arg>
+				<bean class="redis.clients.jedis.JedisPoolConfig" p:maxTotal="${redis.pool.maxTotal}"
+					p:maxIdle="${redis.pool.maxIdle}" p:minIdle="${redis.pool.minIdle}"
+					p:jmxEnabled="true" p:maxWaitMillis="${redis.pool.maxWaitMillis}"
+					p:testOnBorrow="true" p:testOnReturn="false" p:testWhileIdle="false" />
+			</constructor-arg>
+		</bean>
+	</beans>
+
+	<!-- QA environment -->
+	<beans profile="onstage.env.qa">
+
+		<bean id="jedisConnectionFactory"
+			class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+			p:host-name="${redis.host}" p:port="${redis.port}" p:timeout="${redis.connection.timeout}">
+			<constructor-arg>
+				<bean class="redis.clients.jedis.JedisPoolConfig" p:maxTotal="${redis.pool.maxTotal}"
+					p:maxIdle="${redis.pool.maxIdle}" p:minIdle="${redis.pool.minIdle}"
+					p:jmxEnabled="true" p:maxWaitMillis="${redis.pool.maxWaitMillis}"
+					p:testOnBorrow="true" p:testOnReturn="false" p:testWhileIdle="false" />
+			</constructor-arg>
+		</bean>
+	</beans>
+
+	<!-- PRE-PROD environment -->
+	<beans profile="onstage.env.preprod">
+
+		<bean id="jedisConnectionFactory"
+			class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+			p:host-name="${redis.host}" p:port="${redis.port}" p:timeout="${redis.connection.timeout}">
+			<constructor-arg>
+				<bean class="redis.clients.jedis.JedisPoolConfig" p:maxTotal="${redis.pool.maxTotal}"
+					p:maxIdle="${redis.pool.maxIdle}" p:minIdle="${redis.pool.minIdle}"
+					p:jmxEnabled="true" p:maxWaitMillis="${redis.pool.maxWaitMillis}"
+					p:testOnBorrow="true" p:testOnReturn="false" p:testWhileIdle="false" />
+			</constructor-arg>
+		</bean>
+	</beans>
+
+	<!-- PRODUCTION environment -->
+	<beans profile="onstage.env.production">
+
+		<bean id="jedisConnectionFactory"
+			class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+			p:host-name="${redis.host}" p:port="${redis.port}" p:timeout="${redis.connection.timeout}">
+			<constructor-arg>
+				<bean class="redis.clients.jedis.JedisPoolConfig" p:maxTotal="${redis.pool.maxTotal}"
+					p:maxIdle="${redis.pool.maxIdle}" p:minIdle="${redis.pool.minIdle}"
+					p:jmxEnabled="true" p:maxWaitMillis="${redis.pool.maxWaitMillis}"
+					p:testOnBorrow="true" p:testOnReturn="false" p:testWhileIdle="false" />
+			</constructor-arg>
+		</bean>
+	</beans>
+
+</beans>

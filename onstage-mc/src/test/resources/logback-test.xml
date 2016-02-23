@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<!--  Copyright (c) 2012-2014 Bizmatica Software Lab <onstagemobile@bizmatica.com> 
+	Proprietary and confidential. This file is part of the OnStage Mobile project. 
+	Unauthorized copying of this file, via any medium is strictly prohibited 
+	without the explicit permission of Bizmatica Software Lab For the full copyright 
+	and license information, please view the LICENSE.txt file that was distributed 
+	with this source code. -->
+<configuration>
+
+	<root level="warn">
+		<appender-ref ref="console" />
+	</root>
+	
+</configuration>

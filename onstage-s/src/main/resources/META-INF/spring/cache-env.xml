@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 
+		Environment specific ResponeCacheService configurations		
+		Edit configuration below to match your environment
+		(properties are defined in config/<projectName>[.<env>].properties)
+	-->	
+
+	<beans profile="!withRedis">
+		<bean id="responseCacheService" class="com.bizmatica.onair.local.service.cache.LocalResponseCacheService"/>	
+	</beans>
+	<beans profile="withRedis">
+		<bean id="responseCacheService" class="com.bizmatica.onair.redis.service.cache.ResponseCacheServiceImpl" />	
+	</beans>
+
+	<!-- DEV environment -->
+	<beans profile="onstage.env.dev"> 
+	</beans>
+	
+	<!-- TEST (server) environment -->
+	<beans profile="onstage.env.test">
+	</beans>
+	
+	<!-- QA environment -->
+	<beans profile="onstage.env.qa">
+	</beans>	
+	
+	<!-- PRE-PROD environment -->
+	<beans profile="onstage.env.preprod">
+	</beans>	
+	
+	<!-- PRODUCTION environment -->
+	<beans profile="onstage.env.production">
+	</beans>	
+
+</beans>

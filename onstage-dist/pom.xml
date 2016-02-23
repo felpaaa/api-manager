@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.acc</groupId>
+		<artifactId>onstage</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>onstage-dist</artifactId>
+	<packaging>pom</packaging>
+	<name>onstage - Distribution</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.acc</groupId>
+			<artifactId>onstage-pa</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.acc</groupId>
+			<artifactId>onstage-s</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.acc</groupId>
+			<artifactId>onstage-mc</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.parent.artifactId}</finalName>
+	</build>
+
+	<profiles>
+		<!-- Assemble WARS for deployment In one run assemble 5 WARs for 3 possible 
+			distribution schemes: 1) single WAR: PA+S+MC 2) 2 WARs: PA, S+MC 3) 3 WARs: 
+			PA, S, MC -->
+		<profile>
+			<id>distribution</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>bundle-single-war</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<descriptors>
+								<descriptor>src/assembly/PA+S+MC.xml</descriptor>
+								<descriptor>src/assembly/PA.xml</descriptor>
+								<descriptor>src/assembly/S+MC.xml</descriptor>
+								<descriptor>src/assembly/S.xml</descriptor>
+								<descriptor>src/assembly/MC.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>ear</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>bundle-single-war</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<archiverConfig>
+								<appxml>src/assembly/ear-application.xml</appxml>
+							</archiverConfig>
+							<archive>
+								<manifest></manifest>
+								<manifestEntries>
+									<!-- allow spring-ws -->
+									<DisableIBMJAXWSEngine>true</DisableIBMJAXWSEngine>
+								</manifestEntries>
+							</archive>
+							<descriptors>
+								<descriptor>src/assembly/PA+S+MC-ear.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
+</project>

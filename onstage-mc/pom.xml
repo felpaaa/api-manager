@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.acc</groupId>
+		<artifactId>onstage</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>onstage-mc</artifactId>
+	<name>onstage - MC</name>
+	<packaging>jar</packaging><!-- DO NOT CHANGE INTO war -->
+
+	<dependencies>
+		<!-- Internal Module Dependencies -->
+		<dependency>
+			<groupId>com.acc</groupId>
+			<artifactId>onstage-core</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
+		<!-- OnAir dependencies -->
+		<dependency>
+			<groupId>com.bizmatica.onair</groupId>
+			<artifactId>onair-mc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+		</dependency>
+		<!-- Spring ws -->
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ws.security</groupId>
+			<artifactId>wss4j</artifactId>
+		</dependency>
+
+		<!-- START OF SPRING DATA DEPENDENCIES NEEDED BY PETSTORE DEMO -->
+		<!-- Spring Data -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<!-- Apache Commons DBCP for simple connection pooling -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+		</dependency>
+		<!-- JDBC drivers -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+		<!-- END OF SPRING DATA DEPENDENCIES NEEDED BY PETSTORE DEMO -->
+
+	</dependencies>
+
+
+
+	<build>
+		<finalName>onstage-mc</finalName>
+		<!-- GROOVY WARNING GROOVY WARNING GROOVY WARNING GROOVY WARNING -->
+		<!-- REMEMBER ADD THIS IF GROOVY IS NEEDED IN THE MODULE -->
+		<pluginManagement>
+			<plugins>
+
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<!-- 2.8.0-01 and later require maven-compiler-plugin 3.1 or higher -->
+					<version>3.1</version>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+						<encoding>${project.build.sourceEncoding}</encoding>
+						<compilerId>groovy-eclipse-compiler</compilerId>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.codehaus.groovy</groupId>
+							<artifactId>groovy-eclipse-compiler</artifactId>
+							<version>${groovy-eclipse-compiler}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.codehaus.groovy</groupId>
+							<artifactId>groovy-eclipse-batch</artifactId>
+							<version>${groovy-eclipse-batch}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.9</version>
+					<configuration>
+						<sourceIncludes>
+							<sourceInclude>**/*.groovy</sourceInclude>
+						</sourceIncludes>
+						<additionalProjectnatures>
+							<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+							<projectnature>org.eclipse.jdt.groovy.core.groovyNature</projectnature>
+						</additionalProjectnatures>
+						<additionalBuildcommands>
+							<buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
+						</additionalBuildcommands>
+						<downloadSources>true</downloadSources>
+						<downloadJavadocs>true</downloadJavadocs>
+					</configuration>
+					<inherited>true</inherited>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-eclipse-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/src/main/java/com/onair/pet_/jpa/entities/*.java</exclude>
+						<exclude>**/src/main/java/com/onair/pet_/repositories/*.java</exclude>
+						<exclude>**/src/main/java/com/onair/pet_/services/*.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+
+</project>

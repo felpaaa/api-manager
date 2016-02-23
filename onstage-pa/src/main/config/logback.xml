@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<!-- 
+	Logging configuration included in WAR assembly
+	Used by all assemblies (for standalone PA or single-WAR)
+ -->
+<configuration>
+
+	<property name="ONAIR_PROJECTNAME" value="onstage" /><!-- Project name -->
+	<property name="ONAIR_MODULETYPE" value="pa" /><!-- OnAir module type -->
+	<property name="ONAIR_LOGDIR" value="${catalina.base}/logs" /><!-- Base directory for logfiles -->
+	
+    <contextName>${HOSTNAME}_${ONAIR_PROJECTNAME}-${ONAIR_MODULETYPE}</contextName><!-- Set context name, including hostname, project and module type -->
+	
+	<!-- Detect environment and set $ONAIR_ENV -->
+	<property name="ONAIR_ENV" value="dev" /><!-- Default environment: DEV -->	
+	<if condition='p("spring.profiles.active").contains("onstage.env.production") || p("spring_profiles_active").contains("onstage.env.production")'>
+		<then>
+			<property name="ONAIR_ENV" value="production" />
+		</then>
+	</if>
+	<if condition='p("spring.profiles.active").contains("onstage.env.preprod") || p("spring_profiles_active").contains("onstage.env.preprod")'>
+		<then>
+			<property name="ONAIR_ENV" value="preprod" />
+		</then>
+	</if>
+	<if condition='p("spring.profiles.active").contains("onstage.env.qa") || p("spring_profiles_active").contains("onstage.env.qa")'>
+		<then>
+			<property name="ONAIR_ENV" value="qa" />
+		</then>
+	</if>
+	<if condition='p("spring.profiles.active").contains("onstage.env.test") || p("spring_profiles_active").contains("onstage.env.test")'>
+		<then>
+			<property name="ONAIR_ENV" value="test" />
+		</then>
+	</if>
+	
+	<!--
+		General settings 
+	-->
+ 	<jmxConfigurator /><!-- Enable configuration via JMX --> 
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator"><!--  Propagate level changes to java.util.logging -->
+    	<resetJUL>true</resetJUL>    	
+    </contextListener>	
+	
+	
+	<!-- 
+		Appenders 
+	-->
+
+	<!-- Simple console appender -->	
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [${ONAIR_MODULETYPE}, %thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- Rolling file, daily or at 10MB  -->
+	<appender name="ROLLINGFILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${ONAIR_LOGDIR}/${CONTEXT_NAME}.log</file>
+		<encoder>
+			<pattern>%d{MM/dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- Rolling daily (or at 10MB) -->
+			<fileNamePattern>${ONAIR_LOGDIR}/${CONTEXT_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<!-- Uncomment to limit the number of rolled file to keep -->
+			<!-- <maxHistory>3</maxHistory> -->
+			<!-- <cleanHistoryOnStart>true</cleanHistoryOnStart>   -->
+		</rollingPolicy>
+	</appender>
+	
+	<!-- Log asynchronously to the rolling file -->
+	<appender name="ASYNCROLLINGFILE" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="ROLLINGFILE" />
+	</appender>
+	
+	
+	<!-- 
+		Configuration by Environment
+	 -->
+
+	<!-- Config for PRODUCTION environment -->
+	<if condition='p("ONAIR_ENV").equals("production")'>
+		<then>
+			<root level="info">
+				<appender-ref ref="console" />
+				<appender-ref ref="ASYNCROLLINGFILE" />
+			</root>
+			
+			<!-- Add here loggers for PRODUCTION environment only  -->			
+		</then>
+	</if>
+
+
+	<!-- Config for TEST, QA and PREPROD  environments -->
+	<if condition='p("ONAIR_ENV").equals("test") || p("ONAIR_ENV").equals("preprod") || p("ONAIR_ENV").equals("qa")'>
+		<then>
+			<root level="info">
+				<appender-ref ref="console" />
+				<appender-ref ref="ASYNCROLLINGFILE" />
+			</root>
+			<logger name="ONAIR.MESSAGES" level="debug" /><!-- Enable call processing message logging -->
+			
+			<!-- Add here loggers for TEST, QA and PREPROD environments  -->			
+		</then>
+	</if>
+
+	<!-- Config for DEV environment -->
+	<if condition='p("ONAIR_ENV").equals("dev")'>
+		<then>
+			<root level="info">
+				<appender-ref ref="console" />
+			</root>
+			<logger name="ONAIR.MESSAGES" level="debug" /><!-- Enable call processing message logging -->
+			
+			<!-- Add here loggers for DEV environment only  -->
+		</then>
+	</if>
+</configuration>

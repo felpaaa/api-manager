@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- GeoIP2 (local db) -->
+    <bean id="geoIpDbResource" class="org.springframework.core.io.ClassPathResource">
+    	<constructor-arg value="geoIp2/GeoLite2-Country.mmdb" />
+	</bean>
+	
+	<util:property-path id="geoIpDbStream" path="geoIpDbResource.inputStream" />
+	
+	<bean id="geoIpDbReaderBuilder" class="com.maxmind.geoip2.DatabaseReader.Builder">
+		<constructor-arg ref="geoIpDbStream" />
+	</bean>
+	
+	<bean id="geoIpDbReader" class="com.maxmind.geoip2.DatabaseReader" factory-bean="geoIpDbReaderBuilder"
+		factory-method="build" />
+		
+	<!-- 
+		Environment specific Acl configurations		
+		Edit configuration below to match your environment
+		(properties are defined in config/<projectName>[.<env>].properties)
+	-->	
+
+	<!-- DEV environment -->
+	<beans profile="onstage.env.dev"> 		
+	</beans>
+	
+	<!-- TEST (server) environment -->
+	<beans profile="onstage.env.test">
+	</beans>
+	
+	<!-- QA environment -->
+	<beans profile="onstage.env.qa">	
+	</beans>	
+	
+	<!-- PRE-PROD environment -->
+	<beans profile="onstage.env.preprod">	
+	</beans>	
+	
+	<!-- PRODUCTION environment -->
+	<beans profile="onstage.env.production">
+	</beans>			
+		
+</beans>

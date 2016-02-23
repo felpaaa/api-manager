@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Import base webcontext config for S module (when split from PA module) -->
+	<import resource="classpath*:META-INF/spring/base-s-webContext.xml" />
+	
+	<!-- set node type in nodeInfo -->
+	<bean depends-on="nodeInfo" id="nodeInfoSetter-s" class="com.bizmatica.onair.nodeinfo.NodeInfoTypeSetter">
+		<constructor-arg value="SERVICES" />
+	</bean>
+
+</beans>
